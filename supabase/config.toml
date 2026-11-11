@@ -1,0 +1,7 @@
+project_id = "cota"
+[auth]
+enabled = true
+enable_signup = false
+[auth.email]
+enable_signup = false
+enable_confirmations = false

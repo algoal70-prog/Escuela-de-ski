@@ -1,0 +1,5 @@
+import{PGlite}from'@electric-sql/pglite';import{readFileSync}from'node:fs';export const id=(k,n)=>`00000000-0000-4000-${String(k).padStart(4,'0')}-${String(n).padStart(12,'0')}`;
+export async function setup(){const db=new PGlite();for(const f of['scripts/demo-bootstrap.sql','supabase/migrations/202611110001_cota.sql','supabase/migrations/202611110002_harden.sql','supabase/migrations/202611110003_daily_board_payment.sql','supabase/seed.sql','scripts/demo-profiles.sql'])await db.exec(readFileSync(f,'utf8'));return db}
+export async function rpc(db,a,p,key=crypto.randomUUID()){return(await db.query('select mutate($1,$2::jsonb,$3::uuid) as r',[a,JSON.stringify(p),key])).rows[0].r}
+export const proposal=(p={})=>({day:'2026-08-15',start_min:600,duration:120,type:'exclusiva',discipline:'esqui',language:'es',level:1,instructor_id:id(2,1),sector_id:id(3,1),student_ids:[id(5,1)],...p});
+export async function validate(db,p,exclude=null){return(await db.query('select validate_class($1::jsonb,$2::uuid) as r',[JSON.stringify(p),exclude])).rows[0].r}

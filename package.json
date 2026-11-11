@@ -1,0 +1,16 @@
+{
+  "name": "cota-nieve",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "build": "node scripts/build.mjs",
+    "dev": "node scripts/serve.mjs",
+    "seed:auth": "node --env-file=.env scripts/seed-auth.mjs",
+    "test:remote": "node --env-file=.env scripts/test-remote.mjs"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "^0.5.16"
+  }
+}
