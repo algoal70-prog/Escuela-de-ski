@@ -9,7 +9,7 @@ const coord=await login('coordinacion@cota.test'),reception=await login('recepci
 const rpc=(a,p)=>api(coord,'/rest/v1/rpc/mutate',{action:a,p,request_id:crypto.randomUUID()});
 assert.deepEqual(await api(reception,'/rest/v1/finances?select=*'),[]);
 await assert.rejects(api(reception,'/rest/v1/rpc/financial_day',{d:'2026-08-14'}));
-const own=await api(instructor,'/rest/v1/classes?select=*');const all=await api(coord,'/rest/v1/classes?select=*');const other=all.find(c=>!own.some(o=>o.id===c.id));assert.ok(other);assert.deepEqual(await api(instructor,`/rest/v1/classes?id=eq.${other.id}&select=*`),[]);
+const states=await api(reception,'/rest/v1/rpc/payment_states',{d:'2026-08-14'});assert.ok(states.every(s=>Object.keys(s).sort().join(',')==='class_id,payment'));const own=await api(instructor,'/rest/v1/class_board?select=*');const all=await api(coord,'/rest/v1/classes?select=*');const other=all.find(c=>!own.some(o=>o.id===c.id));assert.ok(other);assert.deepEqual(await api(instructor,`/rest/v1/classes?id=eq.${other.id}&select=*`),[]);
 const day=`2099-${String(1+Math.floor(Math.random()*12)).padStart(2,'0')}-${String(1+Math.floor(Math.random()*27)).padStart(2,'0')}`;
 const ins=(await api(coord,'/rest/v1/instructors?select=*')).find(i=>i.disciplines.includes('esqui')&&!i.days_off.includes(new Date(day+'T12:00Z').getUTCDay()));
 const students=await api(coord,'/rest/v1/students?level=eq.1&select=id&order=id');assert.ok(students.length>=9);
